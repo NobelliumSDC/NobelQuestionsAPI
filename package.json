@@ -1,0 +1,26 @@
+{
+  "name": "nobelquestionsapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NobelliumSDC/NobelQuestionsAPI.git"
+  },
+  "dependencies": {
+  "body-parser": "^1.19.0",
+  "express": "^4.15.0",
+  "mongoose": "^5.10.15"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NobelliumSDC/NobelQuestionsAPI/issues"
+  },
+  "homepage": "https://github.com/NobelliumSDC/NobelQuestionsAPI#readme"
+}
