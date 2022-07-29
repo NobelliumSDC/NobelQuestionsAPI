@@ -1,10 +1,6 @@
 require("dotenv").config();
 
-// process.env.MONGODB_URI,
-// {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true
-// }
+
 const mongoose = require('mongoose');
 
 mongoose.connect(
@@ -23,19 +19,7 @@ helpful: {type: Number, default: 0}
 })
 
 
-// {
-//   "_id": {
-//     "$oid": "62e2813f06f44dc6c287317f"
-//   },
-//   "id": 1,
-//   "question_id": 36,
-//   "body": "Supposedly suede, but I think its synthetic",
-//   "date_written": 1599958385988,
-//   "answerer_name": "sillyguy",
-//   "answerer_email": "first.last@gmail.com",
-//   "reported": 0,
-//   "helpful": 1
-// }
+
 let answerSchema = mongoose.Schema({
 id: {type: Number, required: true},
 question_id: {type: Number, required: true},
