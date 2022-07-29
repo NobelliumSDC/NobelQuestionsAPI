@@ -50,14 +50,14 @@ helpful: {type: Number, default: 0}
 let Question = mongoose.model('Question', questionSchema );
 let Answer = mongoose.model('Answer', answerSchema);
 
-let findAll = function(cb) {
-  Question.find({}, function(err, questions) {
-    if (err) {
-      console.log('Err when finding questions', err)
-    } else {
-      cb(questions)
-    }
-  }).limit(50);
+// let findAll = function(cb) {
+//   Question.find({}, function(err, questions) {
+//     if (err) {
+//       console.log('Err when finding questions', err)
+//     } else {
+//       cb(questions)
+//     }
+//   }).limit(50);
 
 
   // Answer.find({}, function(err, answers) {
@@ -67,10 +67,12 @@ let findAll = function(cb) {
   //     cb(answers)
   //   }
   // }).limit(50).catch((err) => {console.log('error in answer find func:', error)})
-}
+//}
 
 
 
 
 
-module.exports.findAll = findAll;
+//module.exports.findAll = findAll;
+module.exports.Answer = Answer;
+module.exports.Question = Question;

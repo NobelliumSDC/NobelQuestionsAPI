@@ -1,7 +1,7 @@
 
 require("dotenv").config();
 
-const {findAll} = require('../database/index.js')
+const { Answer, Question} = require('../database/index.js')
 const express = require('express');
 
 let app = express();
@@ -12,15 +12,16 @@ app.listen(process.env.PORT, () => console.log(`Server is running on port ${proc
 app.use(express.json());
 
 //qa/questions/?product_id=${productId}
-app.get('/', (req, res) => {
+app.get('/qa/answers', (req, res) => {
 
-
-
-
-    findAll((questions) => {
-      console.log('inside findAll in app', questions)
-
-      res.send(questions);
-    })
+   Answer.find({}).limit(50).then((answers) => {
+    res.send(answers)
+   })
 
 });
+
+app.get('/qa/questions', (req, res) => {
+   Question.find({product_id: 3}).limit(50).then((questions) =>{
+    res.send(questions)
+   })
+})
