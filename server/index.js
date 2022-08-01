@@ -6,9 +6,7 @@ const express = require('express');
 
 let app = express();
 
-
 app.listen(process.env.PORT, () => console.log(`Server is running on port ${process.env.PORT}!`));
-
 app.use(express.json());
 
 
@@ -16,6 +14,7 @@ app.use(express.json());
 
 //////// Getting all answers (answer data only) for a specific question ////////
 ///////////////////////////////////////////////////////////////////////////////
+
 app.get('/qa/questions/:question_id/answers', (req, res) => {
 
      console.log('answer get request', req.params)
@@ -31,7 +30,7 @@ app.get('/qa/questions/:question_id/answers', (req, res) => {
     } else {
       count = req.params.count
     }
-    Answer.find({question_id: req.params.question_id}).limit(Number(count)).skip(Number(page)).then((answers) => {
+    AllInfo.find({question_id: req.params.question_id}).limit(Number(count)).skip(Number(page)).then((answers) => {
       console.log(answers)
     res.send(answers)
    }).catch((error) => {
@@ -118,34 +117,78 @@ app.put('/qa/answers/:answer_id/report', (req, res) => {
 ///////// Adding New Question /////////////
 ///////////////////////////////////////////
 app.post('/qa/questions', (req, res) => {
-  let newQuestion = new AllInfo(req.body);
+  console.log(req.body);
+  AllInfo.find({product_id: req.body.product_id}).then((data) =>{
+    console.log(data);
+    console.log('last', data[data.length-1].id)
 
-  newQuestion.save(function(err) {
+    req.body.id = data[data.length-1].id +1;
+    let  newId = req.body.id;
+
+    let newQuestion = new AllInfo(req.body);
+
+
+    newQuestion.save(function(err) {
     if (err) {
       console.log('error', err);
     } else {
       console.log('new question saved')
       res.sendStatus(201)
     }
-  }).then((data) =>{
-    console.log(data)
   })
+
+  });
+
 })
 
 ///////// Adding New Answer /////////////
 //////////////////////////////////////////
 app.post('/qa/questions/:question_id/answers', (req, res) => {
-    AllInfo.findOneAndUpdate({id: req.params.question_id}, {$push: {answers: req.body}}).then((data) =>{
-      console.log(data);
+
+    AllInfo.find({id: req.params.question_id}).then((data) =>{
+      console.log(data[0].answers[data[0].answers.length-1].id)
+      req.body.id = data[0].answers[data[0].answers.length-1].id + 1
+      req.body.question_id = req.params.question_id;
+
+      let newAnswerData = req.body
+     //console.log(newAnswerData)
+      let newAnswer = new Answer(newAnswerData);
+      //console.log(newAnswer)
+
+      AllInfo.update({id: req.params.question_id}, {$push: {answers: newAnswer}}).then((data) =>{
+      console.log(data[0].answers);
       res.sendStatus(201);
     }).catch((err) =>{
       console.log('err', err)
     })
-})
+  });
+
+
+  })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //////////////////////////////////////////////
- //    FOR Merging data via Shell         //
+ //    For Merging Data Via Shell         //
 //////////////////////////////////////////////
 //        db.questions.aggregate([
 //    {
