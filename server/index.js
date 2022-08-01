@@ -71,9 +71,9 @@ app.get(`/qa/questions/:product_id`, (req, res) => {
 ////////////////////////////////////////////////////////
 app.put('/qa/questions/:question_id/helpful', (req, res) => {
   console.log(req.params.question_id)
-  AllInfo.findOneAndUpdate({id: req.params.question_id}, {$inc: {helpful: 1}}, {new: true}).then((data) => {
+  AllInfo.find({id: req.params.question_id}).then((data) => {
     console.log(data)
-      res.sendStatus(200);
+      res.sendStatus(204);
 
   }).catch((err) => {
     console.log('err', err);
@@ -82,11 +82,19 @@ app.put('/qa/questions/:question_id/helpful', (req, res) => {
 
 
 app.put('/qa/answers/:answer_id/helpful', (req, res) => {
-  console.log(req.params);
+  AllInfo.update({"answers.id" : req.params.answer_id}, {$inc : {"answers.$.helpful": 1}}).then((data) => {
+    console.log(req.params);
+    console.log('data', data);
+    //WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+    res.send(data)
+  })
+
 })
 
 
-
+// .update( {"StudentDetails.StudentSubjectName":"Math"}, { $inc : {
+//   "StudentDetails.$.StudentMathMarks" : 1 } });
+//   WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
 //////////////////////////////////////////////
  //    FOR Merging data via Shell         //
 //////////////////////////////////////////////
