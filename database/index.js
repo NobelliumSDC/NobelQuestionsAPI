@@ -60,11 +60,12 @@ db.once("open", function () {
   console.log("Connected successfully");
 });
 
+mongoose.set('setDefaultsOnInsert', true);
 let questionSchema = mongoose.Schema ({
 id: {type: Number},
 product_id: {type: Number},
 body: {type: String},
-date_written: {type: Date},
+date_written: {type: Date, default: Date.now},
 asker_name: {type: String},
 asker_email: {type: String},
 reported: {type: Boolean, default: false},
@@ -77,7 +78,7 @@ let answerSchema = mongoose.Schema({
 id: {type: Number},
 question_id: {type: Number},
 body: {type: String},
-date_written: {type: Date},
+date_written: {type: Date, default: Date.now},
 answerer_name: {type: String},
 answerer_email: {type: String},
 reported: {type: Boolean, default: false},
@@ -89,7 +90,7 @@ let allInfoSchema = mongoose.Schema({
   id: {type: Number},
 product_id: {type: Number},
 body: {type: String},
-date_written: {type: Date},
+date_written: {type: Date, default: Date.now},
 asker_name: {type: String},
 asker_email: {type: String},
 reported: {type: Boolean, default: false},
@@ -97,7 +98,7 @@ helpful: {type: Number, default: 0},
 answers: [{id: Number,
   question_id: Number,
   body: String,
-  date_written: Date,
+  date_written: {type: Date, default: Date.now},
   answerer_name: String,
   answerer_email: String,
   reported: {type: Boolean, default: false},

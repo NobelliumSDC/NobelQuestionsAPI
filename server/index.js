@@ -80,21 +80,70 @@ app.put('/qa/questions/:question_id/helpful', (req, res) => {
   });
 })
 
-
+///////// Updating Helpful Field for Answer /////////////
+////////////////////////////////////////////////////////
 app.put('/qa/answers/:answer_id/helpful', (req, res) => {
   AllInfo.update({"answers.id" : req.params.answer_id}, {$inc : {"answers.$.helpful": 1}}).then((data) => {
     console.log(req.params);
     console.log('data', data);
-    //WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
-    res.send(data)
+
+    res.sendStatus(204)
   })
 
 })
 
+///////// Updating Report Field for Question /////////////
+////////////////////////////////////////////////////////
+app.put('/qa/questions/:question_id/report', (req, res) => {
+  AllInfo.findOneAndUpdate({id: req.params.question_id}, {$set : {reported: true}}, {new: true}).then((data) => {
+    console.log(req.params);
+    console.log('data', data);
+    res.sendStatus(204);
 
-// .update( {"StudentDetails.StudentSubjectName":"Math"}, { $inc : {
-//   "StudentDetails.$.StudentMathMarks" : 1 } });
-//   WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+  })
+})
+
+///////// Updating Report Field for Answer /////////////
+////////////////////////////////////////////////////////
+app.put('/qa/answers/:answer_id/report', (req, res) => {
+  AllInfo.update({"answers.id" : req.params.answer_id}, {$set : {"answers.$.reported": true}}).then((data) => {
+    console.log(req.params);
+    console.log('data', data);
+
+    res.sendStatus(204)
+  })
+
+})
+
+///////// Adding New Question /////////////
+///////////////////////////////////////////
+app.post('/qa/questions', (req, res) => {
+  let newQuestion = new AllInfo(req.body);
+
+  newQuestion.save(function(err) {
+    if (err) {
+      console.log('error', err);
+    } else {
+      console.log('new question saved')
+      res.sendStatus(201)
+    }
+  }).then((data) =>{
+    console.log(data)
+  })
+})
+
+///////// Adding New Answer /////////////
+//////////////////////////////////////////
+app.post('/qa/questions/:question_id/answers', (req, res) => {
+    AllInfo.findOneAndUpdate({id: req.params.question_id}, {$push: {answers: req.body}}).then((data) =>{
+      console.log(data);
+      res.sendStatus(201);
+    }).catch((err) =>{
+      console.log('err', err)
+    })
+})
+
+
 //////////////////////////////////////////////
  //    FOR Merging data via Shell         //
 //////////////////////////////////////////////
