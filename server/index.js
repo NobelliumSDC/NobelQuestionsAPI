@@ -30,7 +30,7 @@ app.get('/qa/questions/:question_id/answers', (req, res) => {
     } else {
       count = req.params.count
     }
-    AllInfo.find({question_id: req.params.question_id}).limit(Number(count)).skip(Number(page)).then((answers) => {
+    AllInfo.find({id: req.params.question_id}).limit(Number(count)).skip(Number(page)).then((answers) => {
       console.log(answers)
     res.send(answers)
    }).catch((error) => {
