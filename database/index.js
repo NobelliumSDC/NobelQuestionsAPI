@@ -10,7 +10,7 @@ const { MongoClient } = require("mongodb");
 
 
 mongoose.connect(
-  `mongodb://${process.env.MONGO_HOST}:27017/${process.env.DB_NAME}`
+  `mongodb://${process.env.MONGODB_HOST}:27017/${process.env.DB_NAME}`
 );
 const db = mongoose.connection;
 
