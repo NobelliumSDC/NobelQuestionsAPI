@@ -58,11 +58,17 @@ app.get(`/qa/questions/:product_id`, (req, res) => {
   }
 
   console.log(req.params)
+ //let pid = req.params.product_id + "";
 
- AllInfo.find({product_id: req.params.product_id}).limit(Number(count)).skip(Number(page)).then((data) => {
+ AllInfo.find({product_id: '34'}).limit(Number(count)).skip(Number(page)).lean().then((data) => {
   console.log('data', data)
+  data.forEach((item) => {
+    let temp = JSON.parse(item.answers);
+    item.answers = temp
+  })
+
   res.send(data)
- })
+ }).catch((err) =>{console.log('err', err)})
 
 })
 

@@ -4,13 +4,13 @@ const path = require('path');
 
 const mongoose = require('mongoose');
 const { MongoClient } = require("mongodb");
-////const client = new MongoClient( `mongodb://localhost:27017/${process.env.DB_NAME}`);
+
 
 
 
 
 mongoose.connect(
-  `mongodb://${process.env.MONGODB_HOST}:27017/${process.env.DB_NAME}`
+  `mongodb://chey:shiba@${process.env.MONGODB_HOST}:27017/${process.env.DB_NAME}`
 );
 const db = mongoose.connection;
 
@@ -20,14 +20,6 @@ db.once("open", function () {
 });
 
 mongoose.set('setDefaultsOnInsert', true);
-// const autoIncrement = require('mongoose-auto-increment');
-// autoIncrement.initialize(connection);
-
-
-// allInfoSchema.plugin(autoIncrement.plugin, {
-//   model: 'AllInfo',
-//   field: 'id'
-// });
 
 
 let questionSchema = mongoose.Schema ({
@@ -57,15 +49,15 @@ photos: []
 
 
 let allInfoSchema = mongoose.Schema({
-id: {type: Number, required: true, index: true},
-product_id: {type: Number},
+id: {type: String, required: true, index: true},
+product_id: {type: String},
 body: {type: String},
 date_written: {type: Date, default: Date.now},
 asker_name: {type: String},
 asker_email: {type: String},
 reported: {type: Boolean, default: false},
-helpful: {type: Number, default: 0},
-answers: []
+helpful: {type: String, default: 0},
+answers: [Object]
 })
 
 
